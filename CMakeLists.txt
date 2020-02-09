@@ -5,7 +5,10 @@ project(kavalier
   DESCRIPTION "A library for streaming data into a neural network"
   LANGUAGES CXX)
 
-option(PACKAGE_TESTS "Build the tests" ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "-g -Wall")
+
+option(BUILD_TESTS "Build the tests" ON)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
  
@@ -17,7 +20,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     message(STATUS "Doxyen not found, not building docs")
   endif()
 
-  if(PACKAGE_TESTS)
+  if(BUILD_TESTS)
     enable_testing()
     include(GoogleTest)
     add_subdirectory(tests)

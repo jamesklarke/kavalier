@@ -24,6 +24,8 @@ macro(package_add_test TESTNAME)
 
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
     target_compile_features(${TESTNAME} PRIVATE cxx_std_11)
+
+    add_test(UnitTests ${TESTNAME})
 endmacro()
 
 package_add_test(testkavalier test_kavalier.cpp) # Command can be a target

@@ -1,0 +1,52 @@
+language: cpp
+
+env:
+  global:
+    # Ubuntu
+    - LINUX_DIST=bionic
+    - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
+    - RUN_TESTS=true
+
+branches:
+  only:
+    - master
+    - devel
+    - devops
+
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+      sudo: true
+      compiler: gcc
+      addons:
+        apt:
+          packages:
+           - gcc-4.8
+           - g++-4.8
+           - cmake
+
+before_install:
+  - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
+  - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
+
+install:
+  - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
+  - echo ${PATH}
+  - echo ${CXX}
+  - ${CXX} --version
+  - ${CXX} -v
+
+script:
+  - mkdir -p build
+  - cd build
+  - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} -DBUILD_TESTS=ON ..
+  - make
+  - ctest
+
+after_succes:
+  - echo "Congratulations! Success!"
+
+
+
+
