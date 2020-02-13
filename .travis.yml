@@ -10,8 +10,9 @@ env:
 branches:
   only:
     - master
-    - devel
+    - develop
     - devops
+    - doc
 
 matrix:
   include:
